@@ -19,11 +19,24 @@ bool external_wifi_login(String ssid, String password) {
         }
     }
 
-
     Serial.println('\n');
     Serial.println("Connection established!");
     Serial.print("IP address:\t");
     Serial.println(WiFi.localIP());         // Send the IP address of the ESP8266 to the computer
 
     return 1;
+}
+
+
+void start_access_point(String SSID, String PASSWORD){
+    Serial.println('\n');
+
+	WiFi.softAP(SSID, PASSWORD);             // Start the access point
+
+	Serial.print("Access Point \"");
+	Serial.print(SSID);
+	Serial.println("\" started");
+	Serial.print("IP address:\t");
+	Serial.println(WiFi.softAPIP());         // Send the IP address of the ESP8266 to the computer
+    Serial.println('\n');
 }
