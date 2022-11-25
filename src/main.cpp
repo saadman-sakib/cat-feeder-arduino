@@ -6,9 +6,14 @@ void handleLogin();
 void setup() {
 	Serial.begin(9600);
 	delay(10);
-	
-	start_access_point(SSID, PASSWORD);
+					
+	socket.on("test", [](String payload){
+		Serial.println("");
+		Serial.println("event: test");
+		Serial.printf("payload: %s\n", payload.c_str());
+		Serial.println("");
 
+	start_access_point(SSID, PASSWORD);
 	server.on("/", handleRoot);
 	server.on("/login", handleLogin);
 	server.begin();
