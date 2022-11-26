@@ -12,6 +12,7 @@ void setup() {
 		Serial.println("event: test");
 		Serial.printf("payload: %s\n", payload.c_str());
 		Serial.println("");
+	});
 
 	start_access_point(SSID, PASSWORD);
 	server.on("/", handleRoot);
