@@ -1,12 +1,17 @@
 #include "constants.h"
 
-void handleRoot();
-void handleLogin();
+void feed(){
+	servo.write(120);
+	delay(800);
+	servo.write(0);
+	delay(900);
+}
 
 void setup() {
 	Serial.begin(9600);
 	delay(10);
-					
+	servo.attach(15);
+
 	socket.on("test", [](String payload){
 		Serial.println("");
 		Serial.println("event: test");
@@ -14,37 +19,26 @@ void setup() {
 		Serial.println("");
 	});
 
-	start_access_point(SSID, PASSWORD);
-	server.on("/", handleRoot);
-	server.on("/login", handleLogin);
-	server.begin();
+	socket.on("feed", [](String payload){
+		Serial.println("");
+		Serial.println("event: feed");
+		Serial.printf("payload: %s\n", payload.c_str());
+		Serial.println("");
+
+		feed();
+
+	});
+
+	wifiManager.autoConnect("AutoConnectAP");
+    socket.begin(SOCKET_HOST, SOCKET_PORT);
+    Serial.println("connected to wifi)");
+
 }
 
 
 void loop() {
-	server.handleClient();
 	socket.loop();
 	delay(10);
 }
 
-
-void handleRoot() {
-	server.send(200, "text/html", index_html);
-}
-
-
-void handleLogin() {
-	String wifi_ssid = server.arg(0);
-	String wifi_password = server.arg(1);
-
-	bool res = external_wifi_login(wifi_ssid, wifi_password);
-
-	if (res){
-		server.send(200, "text/html", "connected");
-        socket.begin(SOCKET_HOST, SOCKET_PORT);
-	}
-	else{
-		server.send(200, "text/html", "couldn't connect");
-	}
-}
 

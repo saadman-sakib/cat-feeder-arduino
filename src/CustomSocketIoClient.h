@@ -88,8 +88,8 @@ protected:
     }
 
 public:
-    void begin(String SOCKET_HOST, int port) {
-        SocketIOclient::begin(SOCKET_HOST, port, "/socket.io/?EIO=4");
+    void begin(String SOCKET_HOST, int PORT) {
+        SocketIOclient::begin(SOCKET_HOST, PORT, "/socket.io/?EIO=4");
     }
 
     void emit(String event, String payload) {
